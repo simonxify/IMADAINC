@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.btnSelectForDisplay = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnSave = new System.Windows.Forms.Button();
@@ -55,6 +55,8 @@
             this.pbEquipment = new System.Windows.Forms.PictureBox();
             this.btnClear = new System.Windows.Forms.Button();
             this.chartMain = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.label14 = new System.Windows.Forms.Label();
+            this.txtFileName = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbEquipment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartMain)).BeginInit();
@@ -74,6 +76,8 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.panel1.Controls.Add(this.txtFileName);
+            this.panel1.Controls.Add(this.label14);
             this.panel1.Controls.Add(this.btnSave);
             this.panel1.Controls.Add(this.txtMaxDisp);
             this.panel1.Controls.Add(this.txtMinForce);
@@ -267,7 +271,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(120, 25);
             this.label4.TabIndex = 9;
-            this.label4.Text = "Average";
+            this.label4.Text = "Average Force";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
@@ -299,10 +303,10 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.label1.Font = new System.Drawing.Font("Garamond", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(462, 67);
-            this.label1.MinimumSize = new System.Drawing.Size(289, 0);
+            this.label1.Location = new System.Drawing.Point(464, 67);
+            this.label1.MinimumSize = new System.Drawing.Size(286, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(289, 24);
+            this.label1.Size = new System.Drawing.Size(286, 24);
             this.label1.TabIndex = 6;
             this.label1.Text = "Statistics";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -340,15 +344,35 @@
             // 
             // chartMain
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chartMain.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chartMain.Legends.Add(legend1);
-            this.chartMain.Location = new System.Drawing.Point(17, 67);
+            chartArea2.Name = "ChartArea1";
+            this.chartMain.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chartMain.Legends.Add(legend2);
+            this.chartMain.Location = new System.Drawing.Point(17, 100);
             this.chartMain.Name = "chartMain";
-            this.chartMain.Size = new System.Drawing.Size(442, 391);
+            this.chartMain.Size = new System.Drawing.Size(442, 358);
             this.chartMain.TabIndex = 1;
             this.chartMain.Text = "chart1";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label14.Font = new System.Drawing.Font("Garamond", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(17, 67);
+            this.label14.MinimumSize = new System.Drawing.Size(300, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(300, 24);
+            this.label14.TabIndex = 30;
+            this.label14.Text = "Chart of Force and Displacement";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txtFileName
+            // 
+            this.txtFileName.Location = new System.Drawing.Point(323, 66);
+            this.txtFileName.Name = "txtFileName";
+            this.txtFileName.Size = new System.Drawing.Size(135, 25);
+            this.txtFileName.TabIndex = 31;
             // 
             // DashBoard
             // 
@@ -396,6 +420,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox txtFileName;
     }
 }
 

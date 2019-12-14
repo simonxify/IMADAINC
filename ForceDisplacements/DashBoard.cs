@@ -24,6 +24,11 @@ namespace ForceDisplacements
             chartMain.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
             chartMain.ChartAreas[0].AxisY.ScaleView.Zoomable = true;
             chartMain.MouseWheel += chartMain_MouseWheel;
+            chartMain.ChartAreas[0].AxisX.Title = "DISPLACEMENT";
+            chartMain.ChartAreas[0].AxisY.Title = "FORCE";
+            chartMain.ChartAreas[0].AxisX.LabelStyle.Format = "#.###";
+            chartMain.ChartAreas[0].AxisY.LabelStyle.Format = "#.###";
+            
         }
 
         private void chartMain_MouseWheel(object sender, MouseEventArgs e)
@@ -49,14 +54,14 @@ namespace ForceDisplacements
                     var yMin = yAxis.ScaleView.ViewMinimum;
                     var yMax = yAxis.ScaleView.ViewMaximum;
 
-                    var posXStart = xAxis.PixelPositionToValue(e.Location.X) - (xMax - xMin) / 4;
-                    var posYStart = yAxis.PixelPositionToValue(e.Location.Y) - (yMax - yMin) / 4;
-                    var posXFinish = xAxis.PixelPositionToValue(e.Location.X) + (xMax - xMin) / 4;
-                    var posYFinish = yAxis.PixelPositionToValue(e.Location.Y) + (xMax - xMin) / 4;
+                    var posXStart = xAxis.PixelPositionToValue(e.Location.X) - (xMax - xMin) / 2;
+                    var posYStart = yAxis.PixelPositionToValue(e.Location.Y) - (yMax - yMin) / 2;
+                    var posXFinish = xAxis.PixelPositionToValue(e.Location.X) + (xMax - xMin) / 2;
+                    var posYFinish = yAxis.PixelPositionToValue(e.Location.Y) + (xMax - xMin) / 2;
 
                     xAxis.ScaleView.Zoom(posXStart, posXFinish);
                     yAxis.ScaleView.Zoom(posYStart, posYFinish);
-                    chartMain.Scale.La
+                    
                 }
             }
             catch(Exception ex)
@@ -75,17 +80,32 @@ namespace ForceDisplacements
         {
             OpenFileDialog file = new OpenFileDialog();
             string filePath = null; ;
+            string extension;
             file.ShowDialog();
             file.InitialDirectory = @"C:\";
             file.RestoreDirectory = true;
             file.Title = "Open Data Files";
             file.DefaultExt = "csv";
-            file.Filter = "csv files (*.csv)|*.csv";
+            file.Filter = "CSV files (*.csv)|*.csv";
             file.CheckFileExists = true;
             file.CheckPathExists = true;
             filePath = file.FileName;
-            ReadCSV(filePath);
-            Occupied = true;
+            extension = Path.GetExtension(filePath);
+            //MessageBox.Show(extension);
+            if (extension == ".csv"){
+                ReadCSV(filePath);
+                string[] separatedFileName = filePath.Split('\\');
+                int length = separatedFileName.Length;
+                string toBeDisplayedFileName = "";
+                toBeDisplayedFileName = separatedFileName[length - 1];
+                txtFileName.Text = toBeDisplayedFileName;
+                Occupied = true;
+            }
+            else
+            {
+                MessageBox.Show("You Must Select .csv files");
+            }
+            
         }
 
         private void ReadCSV(string filePath)
@@ -94,16 +114,20 @@ namespace ForceDisplacements
             {
                 if (filePath != string.Empty)
                 {
-                    using (var reader = new StreamReader(@filePath))
+                    string[] x = null;
+                    var input = x;
+                    long lineCount = 0;
+                    try
                     {
+                        input = File.ReadAllLines(@filePath);
+                        lineCount = input.Length;
+                        //MessageBox.Show(lineCount.ToString());
                         List<decimal> listForce = new List<decimal>();
                         List<decimal> listDisplacement = new List<decimal>();
-
-                        while (!reader.EndOfStream)
+                        for (int i = 13; i < lineCount; i++)
                         {
-                            var line = reader.ReadLine();
+                            var line = input[i];
                             var values = line.Split(',');
-
                             listForce.Add(Convert.ToDecimal(values[0]));
                             listDisplacement.Add(Convert.ToDecimal(values[1]));
                         }
@@ -125,6 +149,12 @@ namespace ForceDisplacements
                         chartMain.Series.Add(series1);
                         count++;
                     }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error due to " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    
                 }
 
             }
@@ -132,14 +162,17 @@ namespace ForceDisplacements
             {
                 if (filePath != string.Empty)
                 {
-                    using (var reader = new StreamReader(@filePath))
+                    string[] x = null;
+                    var input=x;
+                    try
                     {
+                        input = File.ReadAllLines(@filePath);
+                        long lineCount = input.Length;
                         List<decimal> listForce = new List<decimal>();
                         List<decimal> listDisplacement = new List<decimal>();
-
-                        while (!reader.EndOfStream)
+                        for (int i = 13; i < lineCount; i++)
                         {
-                            var line = reader.ReadLine();
+                            var line = input[i];
                             var values = line.Split(',');
 
                             listForce.Add(Convert.ToDecimal(values[0]));
@@ -147,7 +180,6 @@ namespace ForceDisplacements
                         }
                         Series series1 = new Series(name + Convert.ToString(count));
                         series1.ChartType = SeriesChartType.Line;
-                        //series1.Name = "FSeries";
                         series1.Points.DataBindXY(listDisplacement, listForce);
                         decimal maxDisplacement = listDisplacement.Max();
                         decimal maxForce = listForce.Max();
@@ -162,8 +194,11 @@ namespace ForceDisplacements
                         chartMain.Series.Add(series1);
                         count++;
                     }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show("Error due to " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }                    
                 }
-
             }
         }
 
@@ -202,7 +237,15 @@ namespace ForceDisplacements
             filePicture.CheckFileExists = true;
             filePicture.CheckPathExists = true;
             string filePath = filePicture.FileName;
-            LoadImage(filePath);
+            string extension = Path.GetExtension(filePath);
+            if(extension==".jpg" || extension==".jpeg" || extension==".png" || extension==".gif" || extension == ".bmp")
+            {
+                LoadImage(filePath);
+            }
+            else
+            {
+                MessageBox.Show("Please Select Image Files.");
+            }
         }
 
         private void LoadImage(string filePath)
