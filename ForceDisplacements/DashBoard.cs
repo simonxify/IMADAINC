@@ -21,11 +21,53 @@ namespace ForceDisplacements
         public DashBoard()
         {
             InitializeComponent();
+            chartMain.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
+            chartMain.ChartAreas[0].AxisY.ScaleView.Zoomable = true;
+            chartMain.MouseWheel += chartMain_MouseWheel;
         }
+
+        private void chartMain_MouseWheel(object sender, MouseEventArgs e)
+        {
+            var chart = (Chart)sender;
+            var xAxis = chart.ChartAreas[0].AxisX;
+            var yAxis = chart.ChartAreas[0].AxisY;
+
+            try
+            {
+                //scrolled down
+                if (e.Delta < 0)
+                {
+                    xAxis.ScaleView.ZoomReset();
+                    yAxis.ScaleView.ZoomReset();
+
+                }
+                //scrolled up
+                else if (e.Delta > 0)
+                {
+                    var xMin = xAxis.ScaleView.ViewMinimum;
+                    var xMax = xAxis.ScaleView.ViewMaximum;
+                    var yMin = yAxis.ScaleView.ViewMinimum;
+                    var yMax = yAxis.ScaleView.ViewMaximum;
+
+                    var posXStart = xAxis.PixelPositionToValue(e.Location.X) - (xMax - xMin) / 4;
+                    var posYStart = yAxis.PixelPositionToValue(e.Location.Y) - (yMax - yMin) / 4;
+                    var posXFinish = xAxis.PixelPositionToValue(e.Location.X) + (xMax - xMin) / 4;
+                    var posYFinish = yAxis.PixelPositionToValue(e.Location.Y) + (xMax - xMin) / 4;
+
+                    xAxis.ScaleView.Zoom(posXStart, posXFinish);
+                    yAxis.ScaleView.Zoom(posYStart, posYFinish);
+                    chartMain.Scale.La
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
+
         private void btnSelectForDisplay_Click(object sender, EventArgs e)
         {
             SelectButton();
-
 
         }
 
@@ -208,6 +250,11 @@ namespace ForceDisplacements
             {
                 SelectPicture();
             }
+        }
+
+        private void DashBoard_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
