@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CsvHelper;
+using System.Windows;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ForceDisplacements
@@ -19,7 +20,7 @@ namespace ForceDisplacements
         int count = 1;
         string name = "Data ";
         string currentlyOpenedFile = "";
-        string toBeDisplayedFileName="";
+        string toBeDisplayedFileName = "";
         public DashBoard()
         {
             InitializeComponent();
@@ -30,7 +31,7 @@ namespace ForceDisplacements
             chartMain.ChartAreas[0].AxisY.Title = "FORCE (N)";
             chartMain.ChartAreas[0].AxisX.LabelStyle.Format = "#.###";
             chartMain.ChartAreas[0].AxisY.LabelStyle.Format = "#.###";
-            
+
         }
 
         private void chartMain_MouseWheel(object sender, MouseEventArgs e)
@@ -58,17 +59,17 @@ namespace ForceDisplacements
                     var yMin = yAxis.ScaleView.ViewMinimum;
                     var yMax = yAxis.ScaleView.ViewMaximum;
 
-                    var posXStart = xAxis.PixelPositionToValue(e.Location.X) - (xMax - xMin) / 2;
-                    var posYStart = yAxis.PixelPositionToValue(e.Location.Y) - (yMax - yMin) / 2;
-                    var posXFinish = xAxis.PixelPositionToValue(e.Location.X) + (xMax - xMin) / 2;
-                    var posYFinish = yAxis.PixelPositionToValue(e.Location.Y) + (xMax - xMin) / 2;
+                    var posXStart = xAxis.PixelPositionToValue(e.Location.X) - (xMax - xMin) / 4;
+                    var posYStart = yAxis.PixelPositionToValue(e.Location.Y) - (yMax - yMin) / 4;
+                    var posXFinish = xAxis.PixelPositionToValue(e.Location.X) + (xMax - xMin) / 4;
+                    var posYFinish = yAxis.PixelPositionToValue(e.Location.Y) + (xMax - xMin) / 4;
 
                     xAxis.ScaleView.Zoom(posXStart, posXFinish);
                     yAxis.ScaleView.Zoom(posYStart, posYFinish);
-                    
+
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -96,21 +97,18 @@ namespace ForceDisplacements
             filePath = file.FileName;
             extension = Path.GetExtension(filePath);
             //MessageBox.Show(extension);
-            if (extension == ".csv"){
+            if (extension == ".csv")
+            {
                 ReadCSV(filePath);
-                string[] separatedFileName = filePath.Split('\\');
-                int length = separatedFileName.Length;
-                toBeDisplayedFileName = separatedFileName[length - 1];
-                currentlyOpenedFile += toBeDisplayedFileName + ',';
-                txtFileName.Text = currentlyOpenedFile;
+                
                 Occupied = true;
-
             }
             else
             {
                 MessageBox.Show("You Must Select .csv files");
+
             }
-            
+
         }
 
         private void ReadCSV(string filePath)
@@ -155,16 +153,21 @@ namespace ForceDisplacements
                         txtMinDisp.Text = Convert.ToString(minDisplacement);
                         txtMinForce.Text = Convert.ToString(minForce);
                         txtAvgForce.Text = Convert.ToString(avgForce);
+                        string[] separatedFileName = filePath.Split('\\');
+                        int length = separatedFileName.Length;
+
+                        toBeDisplayedFileName = separatedFileName[length - 1];
+                        currentlyOpenedFile += toBeDisplayedFileName + ',';
+                        txtFileName.Text = currentlyOpenedFile;
 
                         chartMain.Series.Add(series1);
                         count++;
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error due to " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Error due to " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+                        toBeDisplayedFileName = "";
                     }
-
-                    
                 }
 
             }
@@ -173,7 +176,7 @@ namespace ForceDisplacements
                 if (filePath != string.Empty)
                 {
                     string[] x = null;
-                    var input=x;
+                    var input = x;
                     try
                     {
                         input = File.ReadAllLines(@filePath);
@@ -204,13 +207,20 @@ namespace ForceDisplacements
                         txtMinDisp.Text = Convert.ToString(minDisplacement);
                         txtMinForce.Text = Convert.ToString(minForce);
                         txtAvgForce.Text = Convert.ToString(avgForce);
+
+                        string[] separatedFileName = filePath.Split('\\');
+                        int length = separatedFileName.Length;
+                        toBeDisplayedFileName = separatedFileName[length - 1];
+                        currentlyOpenedFile += toBeDisplayedFileName + ',';
+                        txtFileName.Text = currentlyOpenedFile;
                         chartMain.Series.Add(series1);
                         count++;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         MessageBox.Show("Error due to " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }                    
+                        toBeDisplayedFileName = "";
+                    }
                 }
             }
         }
@@ -251,7 +261,7 @@ namespace ForceDisplacements
             filePicture.CheckPathExists = true;
             string filePath = filePicture.FileName;
             string extension = Path.GetExtension(filePath);
-            if(extension==".jpg" || extension==".jpeg" || extension==".png" || extension==".gif" || extension == ".bmp")
+            if (extension == ".jpg" || extension == ".jpeg" || extension == ".png" || extension == ".gif" || extension == ".bmp")
             {
                 LoadImage(filePath);
             }
@@ -290,11 +300,11 @@ namespace ForceDisplacements
 
         private void DashBoard_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Modifiers==Keys.Control && e.KeyCode == Keys.O)
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.O)
             {
                 SelectButton();
             }
-            if(e.Modifiers==Keys.Control && e.KeyCode == Keys.S)
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.S)
             {
                 SaveButton();
             }
@@ -302,7 +312,7 @@ namespace ForceDisplacements
             {
                 ClearControls();
             }
-            if(e.Modifiers==Keys.Control && e.KeyCode == Keys.I)
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.I)
             {
                 SelectPicture();
             }
@@ -313,47 +323,5 @@ namespace ForceDisplacements
 
         }
     }
-    public class Serie
-    {
-
-        List<Point> Points { get; set; }
-
-        public Serie(List<Point> points)
-        {
-            Points = points;
-        }
-
-        public double Area()
-        {
-            double Area = 0;
-            var points = Points.OrderBy(P => P.X).ToList();
-            for (int i = 0; i < points.Count - 1; i++)
-            {
-                Point Point1;
-                Point Point2;
-                if (points[i].Y < points[i + 1].Y)
-                {
-                    Point1 = points[i];
-                    Point2 = points[i + 1];
-                }
-                else
-                {
-                    Point1 = points[i + 1];
-                    Point2 = points[i];
-                }
-
-                Area += Point1.Y * (Math.Abs(Point1.X - Point2.X));
-
-                Area += ((Math.Abs(Point1.Y - Point2.Y)) * (Math.Abs(Point1.X - Point2.X))) / 2;
-            }
-
-            return Area;
-        }
-    }
-
-    public class Point
-    {
-        public double X { get; set; }
-        public double Y { get; set; }
-    }
 }
+    
