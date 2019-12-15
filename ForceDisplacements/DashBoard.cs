@@ -18,14 +18,16 @@ namespace ForceDisplacements
         bool Occupied = false;
         int count = 1;
         string name = "Data ";
+        string currentlyOpenedFile = "";
+        string toBeDisplayedFileName="";
         public DashBoard()
         {
             InitializeComponent();
             chartMain.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
             chartMain.ChartAreas[0].AxisY.ScaleView.Zoomable = true;
             chartMain.MouseWheel += chartMain_MouseWheel;
-            chartMain.ChartAreas[0].AxisX.Title = "DISPLACEMENT";
-            chartMain.ChartAreas[0].AxisY.Title = "FORCE";
+            chartMain.ChartAreas[0].AxisX.Title = "DISPLACEMENT (mm)";
+            chartMain.ChartAreas[0].AxisY.Title = "FORCE (N)";
             chartMain.ChartAreas[0].AxisX.LabelStyle.Format = "#.###";
             chartMain.ChartAreas[0].AxisY.LabelStyle.Format = "#.###";
             
@@ -40,6 +42,7 @@ namespace ForceDisplacements
             try
             {
                 //scrolled down
+                //reset magnify
                 if (e.Delta < 0)
                 {
                     xAxis.ScaleView.ZoomReset();
@@ -47,6 +50,7 @@ namespace ForceDisplacements
 
                 }
                 //scrolled up
+                //magnify
                 else if (e.Delta > 0)
                 {
                     var xMin = xAxis.ScaleView.ViewMinimum;
@@ -96,10 +100,11 @@ namespace ForceDisplacements
                 ReadCSV(filePath);
                 string[] separatedFileName = filePath.Split('\\');
                 int length = separatedFileName.Length;
-                string toBeDisplayedFileName = "";
                 toBeDisplayedFileName = separatedFileName[length - 1];
-                txtFileName.Text = toBeDisplayedFileName;
+                currentlyOpenedFile += toBeDisplayedFileName + ',';
+                txtFileName.Text = currentlyOpenedFile;
                 Occupied = true;
+
             }
             else
             {
@@ -114,6 +119,7 @@ namespace ForceDisplacements
             {
                 if (filePath != string.Empty)
                 {
+                    //since var cannot be pre initialized
                     string[] x = null;
                     var input = x;
                     long lineCount = 0;
@@ -124,6 +130,10 @@ namespace ForceDisplacements
                         //MessageBox.Show(lineCount.ToString());
                         List<decimal> listForce = new List<decimal>();
                         List<decimal> listDisplacement = new List<decimal>();
+                        //becoz value start from line 14                        
+                        string dateOfCreation = input[6];
+                        string[] dateOfCreations = dateOfCreation.Split('=');
+                        txtDoC.Text = dateOfCreations[1];
                         for (int i = 13; i < lineCount; i++)
                         {
                             var line = input[i];
@@ -170,6 +180,9 @@ namespace ForceDisplacements
                         long lineCount = input.Length;
                         List<decimal> listForce = new List<decimal>();
                         List<decimal> listDisplacement = new List<decimal>();
+                        string dateOfCreation = input[6];
+                        string[] dateOfCreations = dateOfCreation.Split('=');
+                        txtDoC.Text = dateOfCreations[1];
                         for (int i = 13; i < lineCount; i++)
                         {
                             var line = input[i];
@@ -299,5 +312,48 @@ namespace ForceDisplacements
         {
 
         }
+    }
+    public class Serie
+    {
+
+        List<Point> Points { get; set; }
+
+        public Serie(List<Point> points)
+        {
+            Points = points;
+        }
+
+        public double Area()
+        {
+            double Area = 0;
+            var points = Points.OrderBy(P => P.X).ToList();
+            for (int i = 0; i < points.Count - 1; i++)
+            {
+                Point Point1;
+                Point Point2;
+                if (points[i].Y < points[i + 1].Y)
+                {
+                    Point1 = points[i];
+                    Point2 = points[i + 1];
+                }
+                else
+                {
+                    Point1 = points[i + 1];
+                    Point2 = points[i];
+                }
+
+                Area += Point1.Y * (Math.Abs(Point1.X - Point2.X));
+
+                Area += ((Math.Abs(Point1.Y - Point2.Y)) * (Math.Abs(Point1.X - Point2.X))) / 2;
+            }
+
+            return Area;
+        }
+    }
+
+    public class Point
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
     }
 }

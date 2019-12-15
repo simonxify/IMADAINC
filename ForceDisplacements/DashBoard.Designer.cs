@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.btnSelectForDisplay = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtFileName = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.txtMaxDisp = new System.Windows.Forms.TextBox();
             this.txtMinForce = new System.Windows.Forms.TextBox();
@@ -55,8 +57,8 @@
             this.pbEquipment = new System.Windows.Forms.PictureBox();
             this.btnClear = new System.Windows.Forms.Button();
             this.chartMain = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.label14 = new System.Windows.Forms.Label();
-            this.txtFileName = new System.Windows.Forms.TextBox();
+            this.txtDoC = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbEquipment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartMain)).BeginInit();
@@ -76,6 +78,8 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.panel1.Controls.Add(this.label15);
+            this.panel1.Controls.Add(this.txtDoC);
             this.panel1.Controls.Add(this.txtFileName);
             this.panel1.Controls.Add(this.label14);
             this.panel1.Controls.Add(this.btnSave);
@@ -108,6 +112,27 @@
             this.panel1.Size = new System.Drawing.Size(776, 502);
             this.panel1.TabIndex = 1;
             // 
+            // txtFileName
+            // 
+            this.txtFileName.Enabled = false;
+            this.txtFileName.Location = new System.Drawing.Point(323, 66);
+            this.txtFileName.Name = "txtFileName";
+            this.txtFileName.Size = new System.Drawing.Size(135, 25);
+            this.txtFileName.TabIndex = 31;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label14.Font = new System.Drawing.Font("Garamond", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(17, 67);
+            this.label14.MinimumSize = new System.Drawing.Size(300, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(300, 24);
+            this.label14.TabIndex = 30;
+            this.label14.Text = "Chart of Force and Displacement";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // btnSave
             // 
             this.btnSave.Font = new System.Drawing.Font("Garamond", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -121,6 +146,7 @@
             // 
             // txtMaxDisp
             // 
+            this.txtMaxDisp.Enabled = false;
             this.txtMaxDisp.Location = new System.Drawing.Point(647, 135);
             this.txtMaxDisp.Name = "txtMaxDisp";
             this.txtMaxDisp.Size = new System.Drawing.Size(66, 25);
@@ -128,6 +154,7 @@
             // 
             // txtMinForce
             // 
+            this.txtMinForce.Enabled = false;
             this.txtMinForce.Location = new System.Drawing.Point(647, 166);
             this.txtMinForce.Name = "txtMinForce";
             this.txtMinForce.Size = new System.Drawing.Size(66, 25);
@@ -135,6 +162,7 @@
             // 
             // txtMinDisp
             // 
+            this.txtMinDisp.Enabled = false;
             this.txtMinDisp.Location = new System.Drawing.Point(647, 200);
             this.txtMinDisp.Name = "txtMinDisp";
             this.txtMinDisp.Size = new System.Drawing.Size(66, 25);
@@ -142,6 +170,7 @@
             // 
             // txtAvgForce
             // 
+            this.txtAvgForce.Enabled = false;
             this.txtAvgForce.Location = new System.Drawing.Point(647, 234);
             this.txtAvgForce.Name = "txtAvgForce";
             this.txtAvgForce.Size = new System.Drawing.Size(66, 25);
@@ -149,6 +178,7 @@
             // 
             // txtMaxForce
             // 
+            this.txtMaxForce.Enabled = false;
             this.txtMaxForce.Location = new System.Drawing.Point(647, 100);
             this.txtMaxForce.Name = "txtMaxForce";
             this.txtMaxForce.Size = new System.Drawing.Size(66, 25);
@@ -344,35 +374,36 @@
             // 
             // chartMain
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chartMain.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chartMain.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            this.chartMain.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartMain.Legends.Add(legend1);
             this.chartMain.Location = new System.Drawing.Point(17, 100);
             this.chartMain.Name = "chartMain";
             this.chartMain.Size = new System.Drawing.Size(442, 358);
             this.chartMain.TabIndex = 1;
             this.chartMain.Text = "chart1";
             // 
-            // label14
+            // txtDoC
             // 
-            this.label14.AutoSize = true;
-            this.label14.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label14.Font = new System.Drawing.Font("Garamond", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(17, 67);
-            this.label14.MinimumSize = new System.Drawing.Size(300, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(300, 24);
-            this.label14.TabIndex = 30;
-            this.label14.Text = "Chart of Force and Displacement";
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtDoC.Enabled = false;
+            this.txtDoC.Location = new System.Drawing.Point(616, 29);
+            this.txtDoC.Name = "txtDoC";
+            this.txtDoC.Size = new System.Drawing.Size(134, 25);
+            this.txtDoC.TabIndex = 32;
             // 
-            // txtFileName
+            // label15
             // 
-            this.txtFileName.Location = new System.Drawing.Point(323, 66);
-            this.txtFileName.Name = "txtFileName";
-            this.txtFileName.Size = new System.Drawing.Size(135, 25);
-            this.txtFileName.TabIndex = 31;
+            this.label15.AutoSize = true;
+            this.label15.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label15.Font = new System.Drawing.Font("Garamond", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(461, 30);
+            this.label15.MinimumSize = new System.Drawing.Size(10, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(149, 24);
+            this.label15.TabIndex = 33;
+            this.label15.Text = "Date of Creation";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // DashBoard
             // 
@@ -422,6 +453,8 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txtFileName;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox txtDoC;
     }
 }
 
